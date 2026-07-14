@@ -1,0 +1,964 @@
+/* ============================================================
+   TMyadmin — Design System
+   Tailwind CSS v4 + CSS Custom Properties (Design Tokens)
+   ============================================================ */
+
+@import "tailwindcss";
+
+/* ============================================================
+   DESIGN TOKENS — CSS Variables
+   Semua nilai warna, ukuran, typography terpusat di sini.
+   Ubah nilai di sini untuk mengubah seluruh tampilan app.
+   ============================================================ */
+
+@theme {
+  /* ── Brand Colors ────────────────────────────── */
+  --color-pma-blue: #235a81;
+  --color-pma-blue-light: #3a7ab5;
+  --color-pma-blue-hover: #1a4562;
+
+  /* ── Background Colors ───────────────────────── */
+  --color-pma-bg: #f3f3f3;
+  --color-pma-bg-white: #ffffff;
+  --color-pma-bg-row-hover: #ffffcc;
+  --color-pma-bg-warning: #ffffcc;
+  --color-pma-bg-info: #f8f8f8;
+  --color-pma-bg-header-from: #ffffff;
+  --color-pma-bg-header-to: #e8e8e8;
+
+  /* ── Border Colors ───────────────────────────── */
+  --color-pma-border: #d3d3d3;
+  --color-pma-border-warning: #cccc00;
+  --color-pma-border-info: #aaaaaa;
+
+  /* ── Text Colors ─────────────────────────────── */
+  --color-pma-text: #333333;
+  --color-pma-text-muted: #888888;
+  --color-pma-text-privilege: #cc3399;
+  --color-pma-text-danger: #cc0000;
+  --color-pma-text-link: #235a81;
+  --color-pma-text-warning: #856404;
+
+  /* ── Typography ──────────────────────────────── */
+  --font-size-pma-base: 11px;
+  --font-size-pma-small: 10px;
+  --font-size-pma-heading: 1.3rem;
+  --font-family-pma: sans-serif;
+  --line-height-pma: 1.4;
+
+  /* ── Spacing ─────────────────────────────────── */
+  --spacing-pma-xs: 2px;
+  --spacing-pma-sm: 4px;
+  --spacing-pma-md: 6px;
+  --spacing-pma-lg: 10px;
+  --spacing-pma-xl: 15px;
+  --spacing-pma-2xl: 20px;
+
+  /* ── Borders & Radius ────────────────────────── */
+  --radius-pma-sm: 2px;
+  --radius-pma-md: 4px;
+
+  /* ── Sidebar ─────────────────────────────────── */
+  --width-pma-sidebar: 240px;
+
+  /* ── Database Panel ──────────────────────────── */
+  --width-pma-db-panel: 280px;
+
+  /* ── Gradients ───────────────────────────────── */
+  --gradient-pma-header: linear-gradient(to bottom, #ffffff 0%, #e8e8e8 100%);
+  --gradient-pma-th: linear-gradient(to bottom, #ffffff 0%, #e8e8e8 100%);
+}
+
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family-pma);
+  font-size: var(--font-size-pma-base);
+  color: var(--color-pma-text);
+  background-color: var(--color-pma-bg);
+  line-height: var(--line-height-pma);
+}
+
+/* ============================================================
+   COMPONENT CLASSES — Reusable via @layer
+   ============================================================ */
+
+@layer components {
+
+  /* ── Layout: App Root ────────────────────────── */
+  .pma-app {
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .pma-main {
+    flex: 1;
+    overflow-y: auto;
+    background-color: var(--color-pma-bg-white);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Layout: Sidebar ─────────────────────────── */
+  .pma-sidebar {
+    width: var(--width-pma-sidebar);
+    flex-shrink: 0;
+    background-color: var(--color-pma-bg);
+    border-right: 1px solid var(--color-pma-border);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .pma-sidebar-logo-area {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-bottom: 1px solid var(--color-pma-border);
+    background-color: var(--color-pma-bg-white);
+  }
+
+  .pma-sidebar-logo {
+    width: 120px;
+    margin-bottom: 6px;
+  }
+
+  .pma-sidebar-icon-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+
+  .pma-sidebar-icon {
+    cursor: pointer;
+    opacity: 0.75;
+    transition: opacity 0.15s;
+  }
+
+  .pma-sidebar-icon:hover {
+    opacity: 1;
+  }
+
+  .pma-sidebar-server-label {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 4px;
+    font-size: var(--font-size-pma-base);
+    color: var(--color-pma-text);
+  }
+
+  .pma-sidebar-server-select {
+    width: 100%;
+    font-size: var(--font-size-pma-base);
+    padding: 2px 4px;
+    border: 1px solid var(--color-pma-border);
+    border-radius: var(--radius-pma-sm);
+    background-color: white;
+    color: var(--color-pma-text);
+    cursor: pointer;
+    outline: none;
+  }
+
+  .pma-sidebar-server-select:focus {
+    border-color: var(--color-pma-blue);
+  }
+
+  .pma-sidebar-quick-btns {
+    padding: 4px 6px;
+    border-bottom: 1px solid var(--color-pma-border);
+    display: flex;
+    gap: 4px;
+  }
+
+  .pma-sidebar-filter {
+    padding: 4px 6px;
+    border-bottom: 1px solid var(--color-pma-border);
+    background-color: var(--color-pma-bg-white);
+  }
+
+  .pma-sidebar-filter-input {
+    width: 100%;
+    font-size: var(--font-size-pma-small);
+    padding: 3px 5px;
+    border: 1px solid var(--color-pma-border);
+    outline: none;
+    color: var(--color-pma-text);
+  }
+
+  .pma-sidebar-filter-input:focus {
+    border-color: var(--color-pma-blue);
+  }
+
+  .pma-sidebar-tree {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px 6px;
+    line-height: 1.6;
+  }
+
+  /* ── Sidebar Tree Item ───────────────────────── */
+  .pma-db-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 1px 2px;
+    cursor: pointer;
+    border-radius: var(--radius-pma-sm);
+    font-size: var(--font-size-pma-base);
+    color: var(--color-pma-text);
+    transition: background-color 0.1s;
+  }
+
+  .pma-db-item:hover {
+    background-color: #e5e5e5;
+  }
+
+  .pma-db-item.italic {
+    font-style: italic;
+  }
+
+  .pma-db-item-icon {
+    font-size: 10px;
+    color: var(--color-pma-text-muted);
+    flex-shrink: 0;
+    width: 12px;
+    text-align: center;
+  }
+
+  /* ── Layout: Top Header ──────────────────────── */
+  .pma-header {
+    background: var(--gradient-pma-header);
+    border-bottom: 1px solid var(--color-pma-border);
+    padding: 4px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    min-height: 28px;
+  }
+
+  .pma-header-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--font-size-pma-base);
+    color: var(--color-pma-text);
+  }
+
+  .pma-header-back {
+    color: var(--color-pma-text-muted);
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .pma-header-server-info {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .pma-header-right {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .pma-header-action-btn {
+    background-color: #e8e8e8;
+    border: 1px solid var(--color-pma-border);
+    padding: 2px 5px;
+    border-radius: var(--radius-pma-sm);
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 1;
+    transition: background-color 0.15s;
+  }
+
+  .pma-header-action-btn:hover {
+    background-color: #d0d0d0;
+  }
+
+  /* ── Layout: Tab Navigation ──────────────────── */
+  .pma-tab-nav {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--color-pma-border);
+    background-color: var(--color-pma-bg);
+    padding: 4px 6px 0 6px;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+
+  .pma-tab {
+    padding: 3px 10px;
+    border: 1px solid var(--color-pma-border);
+    border-bottom: none;
+    border-radius: 3px 3px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    font-size: var(--font-size-pma-base);
+    background-color: #eeeeee;
+    color: var(--color-pma-text);
+    white-space: nowrap;
+    transition: background-color 0.15s;
+    user-select: none;
+  }
+
+  .pma-tab:hover {
+    background-color: #fafafa;
+  }
+
+  .pma-tab.active {
+    background-color: var(--color-pma-bg-white) !important;
+    border-bottom: 1px solid var(--color-pma-bg-white) !important;
+    font-weight: 700;
+    position: relative;
+    bottom: -1px;
+    z-index: 1;
+  }
+
+  .pma-tab-icon {
+    font-size: 13px;
+  }
+
+  /* ── Layout: Console Footer ──────────────────── */
+  .pma-console-footer {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: var(--width-pma-sidebar);
+    background-color: #e0e0e0;
+    border-top: 1px solid var(--color-pma-border);
+    padding: 3px 10px;
+    z-index: 100;
+  }
+
+  .pma-console-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background-color: var(--color-pma-bg-white);
+    border: 1px solid #aaaaaa;
+    padding: 1px 8px;
+    cursor: pointer;
+    font-size: var(--font-size-pma-base);
+    color: var(--color-pma-text);
+    transition: background-color 0.15s;
+  }
+
+  .pma-console-btn:hover {
+    background-color: #f5f5f5;
+  }
+
+  /* ── Content Area ────────────────────────────── */
+  .pma-content {
+    padding: 12px 16px;
+    flex: 1;
+    padding-bottom: 36px; /* clearance for fixed footer */
+  }
+
+  .pma-page-title {
+    font-size: var(--font-size-pma-heading);
+    font-weight: normal;
+    color: var(--color-pma-text);
+    margin: 0 0 12px 0;
+    padding: 0;
+  }
+
+  /* ── Page Scroll Area ────────────────────────── */
+  .pma-page-area {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  /* ── Page Placeholder (tab belum diimplementasi) */
+  .pma-page-placeholder {
+    color: var(--color-pma-text-muted);
+    font-style: italic;
+  }
+
+  /* ── Table ───────────────────────────────────── */
+  .pma-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-pma-base);
+  }
+
+  .pma-table th {
+    background: var(--gradient-pma-th);
+    border: 1px solid var(--color-pma-border);
+    padding: 4px 6px;
+    text-align: left;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  .pma-table td {
+    border: 1px solid var(--color-pma-border);
+    padding: 2px 6px;
+    background-color: var(--color-pma-bg-white);
+    vertical-align: middle;
+  }
+
+  .pma-table tbody tr:hover td {
+    background-color: var(--color-pma-bg-row-hover);
+  }
+
+  .pma-table-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+
+  /* ── Table: Cell Variants ────────────────────── */
+  .pma-cell-privilege {
+    color: var(--color-pma-text-privilege);
+    font-size: var(--font-size-pma-base);
+  }
+
+  .pma-cell-danger {
+    color: var(--color-pma-text-danger);
+    font-weight: 700;
+  }
+
+  /* ── Action Link ─────────────────────────────── */
+  .pma-action-link {
+    color: var(--color-pma-text-link);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: var(--font-size-pma-base);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+
+  .pma-action-link:hover {
+    text-decoration: underline;
+    color: var(--color-pma-blue-hover);
+  }
+
+  .pma-action-link-icon {
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  /* ── Button ──────────────────────────────────── */
+  .pma-btn {
+    background-color: #f0f0f0;
+    border: 1px solid #999999;
+    padding: 2px 10px;
+    border-radius: var(--radius-pma-sm);
+    cursor: pointer;
+    font-size: var(--font-size-pma-base);
+    color: var(--color-pma-text);
+    font-family: var(--font-family-pma);
+    transition: background-color 0.15s, border-color 0.15s;
+  }
+
+  .pma-btn:hover {
+    background-color: #e0e0e0;
+    border-color: #777777;
+  }
+
+  .pma-btn:active {
+    background-color: #d0d0d0;
+  }
+
+  /* ── Quick Button (sidebar) ──────────────────── */
+  .pma-quick-btn {
+    background-color: #e0e0e0;
+    border: 1px solid #aaaaaa;
+    padding: 1px 6px;
+    border-radius: var(--radius-pma-sm);
+    cursor: pointer;
+    font-size: var(--font-size-pma-base);
+    color: var(--color-pma-text);
+    transition: background-color 0.15s;
+  }
+
+  .pma-quick-btn:hover {
+    background-color: #cccccc;
+  }
+
+  /* ── Section Header ──────────────────────────── */
+  .pma-section-header {
+    background-color: #e8e8e8;
+    border: 1px solid var(--color-pma-border);
+    border-radius: 3px 3px 0 0;
+    padding: 3px 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 700;
+    font-size: var(--font-size-pma-base);
+    color: var(--color-pma-text);
+  }
+
+  .pma-section-body {
+    border: 1px solid var(--color-pma-border);
+    border-top: none;
+    padding: 10px 12px;
+    background-color: #fafafa;
+    font-size: var(--font-size-pma-base);
+  }
+
+  /* ── Info Box ────────────────────────────────── */
+  .pma-info-box {
+    border: 1px solid var(--color-pma-border-info);
+    background-color: var(--color-pma-bg-info);
+    padding: 8px 12px;
+    margin-top: 12px;
+    border-radius: var(--radius-pma-md);
+    font-size: var(--font-size-pma-base);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: var(--color-pma-text);
+    line-height: 1.5;
+  }
+
+  /* ── Warning Box ─────────────────────────────── */
+  .pma-warning-box {
+    border: 1px solid var(--color-pma-border-warning);
+    background-color: var(--color-pma-bg-warning);
+    padding: 8px 12px;
+    margin-top: 12px;
+    border-radius: var(--radius-pma-md);
+    font-size: var(--font-size-pma-base);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: var(--color-pma-text);
+    line-height: 1.5;
+  }
+
+  .pma-box-icon {
+    font-size: 15px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .pma-box-content {
+    flex: 1;
+  }
+
+  .pma-box-link {
+    color: #0645ad;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  .pma-box-link:hover {
+    color: #0b0080;
+  }
+
+  /* ── Checkbox ────────────────────────────────── */
+  .pma-checkbox {
+    cursor: pointer;
+    accent-color: var(--color-pma-blue);
+  }
+
+  /* ── Divider ─────────────────────────────────── */
+  .pma-divider {
+    border: none;
+    border-top: 1px solid var(--color-pma-border);
+    margin: 8px 0;
+  }
+
+  /* ── Bulk Action Bar ─────────────────────────── */
+  .pma-bulk-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+    font-size: var(--font-size-pma-base);
+    color: var(--color-pma-text);
+  }
+
+  .pma-bulk-bar-arrow {
+    color: var(--color-pma-text-muted);
+    font-size: 13px;
+  }
+
+  .pma-bulk-bar-label {
+    font-style: italic;
+    margin-left: 8px;
+  }
+
+  /* ── Overflow container ──────────────────────── */
+  .pma-table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 12px;
+  }
+
+  /* ============================================================
+     GRID SYSTEM — pma-row + pma-col-{1..12}
+     12-column flex grid, mirip Bootstrap.
+     Gunakan .pma-row sebagai container,
+     .pma-col-{n} sebagai kolom (n dari 1 s/d 12).
+     ============================================================ */
+
+  .pma-row {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 0;
+  }
+
+  /* Col helper — basis 1/12 * n */
+  .pma-col-1  { flex: 0 0 calc(100% / 12 * 1);  max-width: calc(100% / 12 * 1); }
+  .pma-col-2  { flex: 0 0 calc(100% / 12 * 2);  max-width: calc(100% / 12 * 2); }
+  .pma-col-3  { flex: 0 0 calc(100% / 12 * 3);  max-width: calc(100% / 12 * 3); }
+  .pma-col-4  { flex: 0 0 calc(100% / 12 * 4);  max-width: calc(100% / 12 * 4); }
+  .pma-col-5  { flex: 0 0 calc(100% / 12 * 5);  max-width: calc(100% / 12 * 5); }
+  .pma-col-6  { flex: 0 0 calc(100% / 12 * 6);  max-width: calc(100% / 12 * 6); }
+  .pma-col-7  { flex: 0 0 calc(100% / 12 * 7);  max-width: calc(100% / 12 * 7); }
+  .pma-col-8  { flex: 0 0 calc(100% / 12 * 8);  max-width: calc(100% / 12 * 8); }
+  .pma-col-9  { flex: 0 0 calc(100% / 12 * 9);  max-width: calc(100% / 12 * 9); }
+  .pma-col-10 { flex: 0 0 calc(100% / 12 * 10); max-width: calc(100% / 12 * 10); }
+  .pma-col-11 { flex: 0 0 calc(100% / 12 * 11); max-width: calc(100% / 12 * 11); }
+  .pma-col-12 { flex: 0 0 100%; max-width: 100%; }
+
+  /* Col auto — mengisi sisa space */
+  .pma-col-auto {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  /* ── Table Column Width Helpers ──────────────── */
+  /* Gunakan pada <th> atau <td> untuk set lebar kolom tabel */
+  .pma-th-checkbox { width: 28px; min-width: 28px; }
+  .pma-th-narrow   { width: 60px; min-width: 60px; }
+  .pma-th-medium   { width: 120px; min-width: 120px; }
+  .pma-th-wide     { width: 200px; min-width: 200px; }
+  .pma-th-action   { width: 260px; min-width: 260px; }
+
+  /* ── Help Icon (th header) ───────────────────── */
+  .pma-th-help-icon {
+    cursor: help;
+    color: #4a90d9;
+    font-size: 11px;
+    margin-left: 3px;
+    vertical-align: middle;
+  }
+
+  /* ── Form Label — inline dengan checkbox/input ── */
+  .pma-form-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    font-size: var(--font-size-pma-base);
+    color: var(--color-pma-text);
+  }
+
+  /* ── Form Label — dengan margin bawah ───────── */
+  .pma-form-label-mb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: var(--font-size-pma-base);
+    color: var(--color-pma-text);
+    margin-bottom: 12px;
+  }
+
+  /* ── Section Paragraph ───────────────────────── */
+  .pma-section-p {
+    margin: 0 0 10px 0;
+    font-size: var(--font-size-pma-base);
+    color: var(--color-pma-text);
+    line-height: 1.5;
+  }
+
+  /* ── Section Footer (justify end) ───────────── */
+  .pma-section-footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  /* ── Section Margin Bottom ───────────────────── */
+  .pma-section-mb {
+    margin-bottom: 20px;
+  }
+
+  /* ============================================================
+     DATABASE PANEL — Right-side slide panel
+     Show/hide daftar database dengan animasi
+     ============================================================ */
+
+  /* ── Panel Container ─────────────────────────── */
+  .pma-db-panel {
+    width: var(--width-pma-db-panel);
+    flex-shrink: 0;
+    background-color: var(--color-pma-bg-white);
+    border-left: 1px solid var(--color-pma-border);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    transition: width 0.25s ease, opacity 0.25s ease;
+  }
+
+  .pma-db-panel.closed {
+    width: 0;
+    opacity: 0;
+    border-left: none;
+    pointer-events: none;
+  }
+
+  /* ── Toggle Button (di dalam AppTopHeader) ───── */
+  .pma-db-panel-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background-color: var(--color-pma-bg);
+    border: 1px solid var(--color-pma-border);
+    padding: 2px 8px;
+    border-radius: var(--radius-pma-sm);
+    cursor: pointer;
+    font-size: var(--font-size-pma-base);
+    color: var(--color-pma-text);
+    font-family: var(--font-family-pma);
+    transition: background-color 0.15s, border-color 0.15s;
+    user-select: none;
+  }
+
+  .pma-db-panel-toggle:hover {
+    background-color: #e0e0e0;
+    border-color: #aaaaaa;
+  }
+
+  .pma-db-panel-toggle.active {
+    background-color: var(--color-pma-blue);
+    border-color: var(--color-pma-blue-hover);
+    color: var(--color-pma-bg-white);
+  }
+
+  .pma-db-panel-toggle.active:hover {
+    background-color: var(--color-pma-blue-hover);
+  }
+
+  /* ── Panel Header ────────────────────────────── */
+  .pma-db-panel-header {
+    background: var(--gradient-pma-header);
+    border-bottom: 1px solid var(--color-pma-border);
+    padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    min-height: 28px;
+  }
+
+  .pma-db-panel-title {
+    font-size: var(--font-size-pma-base);
+    font-weight: 700;
+    color: var(--color-pma-text);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .pma-db-panel-close {
+    cursor: pointer;
+    color: var(--color-pma-text-muted);
+    font-size: 14px;
+    line-height: 1;
+    padding: 1px 3px;
+    border-radius: var(--radius-pma-sm);
+    transition: background-color 0.15s, color 0.15s;
+    border: none;
+    background: none;
+    font-family: var(--font-family-pma);
+  }
+
+  .pma-db-panel-close:hover {
+    background-color: #e0e0e0;
+    color: var(--color-pma-text);
+  }
+
+  /* ── Panel Search ────────────────────────────── */
+  .pma-db-panel-search {
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--color-pma-border);
+    background-color: var(--color-pma-bg-white);
+    flex-shrink: 0;
+  }
+
+  .pma-db-panel-search-input {
+    width: 100%;
+    font-size: var(--font-size-pma-small);
+    padding: 3px 6px;
+    border: 1px solid var(--color-pma-border);
+    border-radius: var(--radius-pma-sm);
+    outline: none;
+    color: var(--color-pma-text);
+    font-family: var(--font-family-pma);
+    background-color: var(--color-pma-bg-white);
+  }
+
+  .pma-db-panel-search-input:focus {
+    border-color: var(--color-pma-blue);
+  }
+
+  /* ── Panel Stats Bar ─────────────────────────── */
+  .pma-db-panel-stats {
+    padding: 4px 10px;
+    border-bottom: 1px solid var(--color-pma-border);
+    font-size: var(--font-size-pma-small);
+    color: var(--color-pma-text-muted);
+    background-color: var(--color-pma-bg);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ── Panel Table List (scrollable) ──────────── */
+  .pma-db-panel-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+  }
+
+  /* ── Panel Table Header ──────────────────────── */
+  .pma-db-panel-list-head {
+    display: flex;
+    align-items: center;
+    padding: 4px 10px;
+    background: var(--gradient-pma-th);
+    border-bottom: 1px solid var(--color-pma-border);
+    font-size: var(--font-size-pma-small);
+    font-weight: 700;
+    color: var(--color-pma-text);
+    position: sticky;
+    top: 0;
+    z-index: 1;
+  }
+
+  .pma-db-panel-list-head-name {
+    flex: 1;
+  }
+
+  .pma-db-panel-list-head-tables {
+    width: 48px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .pma-db-panel-list-head-size {
+    width: 52px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  /* ── Panel Database Row ──────────────────────── */
+  .pma-db-panel-row {
+    display: flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-bottom: 1px solid var(--color-pma-border);
+    cursor: pointer;
+    font-size: var(--font-size-pma-base);
+    color: var(--color-pma-text);
+    transition: background-color 0.1s;
+    gap: 6px;
+  }
+
+  .pma-db-panel-row:hover {
+    background-color: var(--color-pma-bg-row-hover);
+  }
+
+  .pma-db-panel-row.active {
+    background-color: #d6e8f5;
+    font-weight: 700;
+    color: var(--color-pma-blue);
+  }
+
+  .pma-db-panel-row-icon {
+    font-size: 11px;
+    flex-shrink: 0;
+    color: var(--color-pma-text-muted);
+  }
+
+  .pma-db-panel-row-name {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .pma-db-panel-row-name.italic {
+    font-style: italic;
+    color: var(--color-pma-text-muted);
+  }
+
+  .pma-db-panel-row-tables {
+    width: 48px;
+    text-align: right;
+    font-size: var(--font-size-pma-small);
+    color: var(--color-pma-text-muted);
+    flex-shrink: 0;
+  }
+
+  .pma-db-panel-row-size {
+    width: 52px;
+    text-align: right;
+    font-size: var(--font-size-pma-small);
+    color: var(--color-pma-text-muted);
+    flex-shrink: 0;
+  }
+
+  /* ── Panel Badge (charset/engine) ───────────── */
+  .pma-db-panel-badge {
+    display: inline-block;
+    padding: 0px 4px;
+    border-radius: var(--radius-pma-sm);
+    font-size: var(--font-size-pma-small);
+    background-color: #e8e8e8;
+    color: var(--color-pma-text-muted);
+    border: 1px solid var(--color-pma-border);
+    line-height: 1.4;
+  }
+
+  /* ── Panel Footer ────────────────────────────── */
+  .pma-db-panel-footer {
+    border-top: 1px solid var(--color-pma-border);
+    padding: 6px 10px;
+    background-color: var(--color-pma-bg);
+    font-size: var(--font-size-pma-small);
+    color: var(--color-pma-text-muted);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+} /* end @layer components */

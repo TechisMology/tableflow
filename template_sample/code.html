@@ -1,0 +1,512 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>phpMyAdmin - User accounts overview</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style data-purpose="global-typography">
+      body {
+        font-family: sans-serif;
+        font-size: 11px;
+        color: #333;
+        background-color: #f3f3f3;
+      }
+      .text-pma-blue {
+        color: #235a81;
+      }
+      .bg-pma-header {
+        background: linear-gradient(to bottom, #ffffff 0%, #e8e8e8 100%);
+      }
+      .bg-pma-sidebar {
+        background-color: #f3f3f3;
+        border-right: 1px solid #d3d3d3;
+      }
+      .border-pma-gray {
+        border-color: #d3d3d3;
+      }
+    </style>
+    <style data-purpose="component-styles">
+      .sidebar-item:hover {
+        background-color: #e5e5e5;
+      }
+      .tab-active {
+        background: white !important;
+        border-bottom: 1px solid white !important;
+        font-weight: bold;
+      }
+      .table-pma th {
+        background: linear-gradient(to bottom, #ffffff 0%, #e8e8e8 100%);
+        border: 1px solid #d3d3d3;
+        padding: 4px 6px;
+        text-align: left;
+      }
+      .table-pma td {
+        border: 1px solid #d3d3d3;
+        padding: 2px 6px;
+        background-color: white;
+      }
+      .table-pma tr:hover td {
+        background-color: #ffffcc;
+      }
+      .action-link {
+        color: #235a81;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+      .action-link:hover {
+        text-decoration: underline;
+      }
+      .info-box {
+        border: 1px solid #aaa;
+        background-color: #f8f8f8;
+        padding: 10px;
+        margin-top: 15px;
+        border-radius: 4px;
+      }
+      .warning-box {
+        border: 1px solid #cc0;
+        background-color: #ffffcc;
+        padding: 10px;
+        margin-top: 15px;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body class="flex h-screen overflow-hidden">
+    <!-- BEGIN: LeftSidebar -->
+    <aside
+      class="w-64 flex-shrink-0 bg-pma-sidebar flex flex-fold flex-col h-full border-r border-pma-gray"
+    >
+      <div
+        class="p-2 flex flex-col items-center border-b border-pma-gray bg-white"
+      >
+        <img
+          alt="phpMyAdmin Logo"
+          class="mb-2"
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqjwTU23RFk2NNG6jNQmUap7eQuurQstxABH9QdMhE3JotA8jBRqoe2ChuM3tD3hDV15bSO_-_GIvfDOuj3X6jWhwI76GBVTnJjswm-Un9KVcb98IyywO-ss2EkDQmXBZny80hB7eLzcx4mChN-ldE6if_D2yLNA00ZI2ATmUHBAKJrmhsNfDsnPUq8eZfuV3ml7UzaE9VpIS0v1thnfQARmEcRCYFq69zgE2F7EBFr3vkRv-IPXT4TVjPpqWwJoPj3alS5F65Bn1w"
+        />
+        <div class="flex gap-2 mb-2">
+          <span>🏠</span><span>📁</span><span>❓</span><span>⚙️</span
+          ><span>🔄</span>
+        </div>
+        <div class="w-full text-center mb-1">Current server:</div>
+        <select class="w-full text-[11px] p-1 border border-gray-300 rounded">
+          <option>phpMyAdmin demo - MySQL</option>
+        </select>
+      </div>
+      <div class="p-2 border-b border-pma-gray flex gap-1">
+        <button
+          class="bg-gray-200 px-2 py-0.5 border border-gray-400 rounded-sm"
+        >
+          Recent
+        </button>
+        <button
+          class="bg-gray-200 px-2 py-0.5 border border-gray-400 rounded-sm"
+        >
+          Favorites
+        </button>
+      </div>
+      <div class="p-1 border-b border-pma-gray bg-white">
+        <input
+          class="w-full text-[10px] p-1 border border-gray-300"
+          placeholder="Type to filter these, Enter to search all"
+          type="text"
+        />
+      </div>
+      <div class="flex-1 overflow-y-auto p-2 leading-tight">
+        <div class="flex items-center gap-1 sidebar-item py-0.5 cursor-pointer">
+          <span>➖</span><span>New</span>
+        </div>
+        <div class="flex items-center gap-1 sidebar-item py-0.5 cursor-pointer">
+          <span>➕</span><span>alexpalautog</span>
+        </div>
+        <div class="flex items-center gap-1 sidebar-item py-0.5 cursor-pointer">
+          <span>➕</span><span>AngelicaAncheta</span>
+        </div>
+        <div class="flex items-center gap-1 sidebar-item py-0.5 cursor-pointer">
+          <span>➕</span><span>Briannn</span>
+        </div>
+        <div class="flex items-center gap-1 sidebar-item py-0.5 cursor-pointer">
+          <span>➕</span><span>gymnastics_db</span>
+        </div>
+        <div
+          class="flex items-center gap-1 sidebar-item py-0.5 cursor-pointer italic"
+        >
+          <span>➕</span><span>Information</span>
+        </div>
+        <div
+          class="flex items-center gap-1 sidebar-item py-0.5 cursor-pointer italic"
+        >
+          <span>➕</span><span>information_schema</span>
+        </div>
+        <div class="flex items-center gap-1 sidebar-item py-0.5 cursor-pointer">
+          <span>➕</span><span>mysql</span>
+        </div>
+        <div class="flex items-center gap-1 sidebar-item py-0.5 cursor-pointer">
+          <span>➕</span><span>performance_schema</span>
+        </div>
+        <div class="flex items-center gap-1 sidebar-item py-0.5 cursor-pointer">
+          <span>➕</span><span>Portfolio_Marcus</span>
+        </div>
+        <div class="flex items-center gap-1 sidebar-item py-0.5 cursor-pointer">
+          <span>➕</span><span>PRUEBA</span>
+        </div>
+        <div class="flex items-center gap-1 sidebar-item py-0.5 cursor-pointer">
+          <span>➕</span><span>pw</span>
+        </div>
+        <div class="flex items-center gap-1 sidebar-item py-0.5 cursor-pointer">
+          <span>➕</span><span>sakila</span>
+        </div>
+        <div class="flex items-center gap-1 sidebar-item py-0.5 cursor-pointer">
+          <span>➕</span><span>serveruwebcoBressolia</span>
+        </div>
+        <div class="flex items-center gap-1 sidebar-item py-0.5 cursor-pointer">
+          <span>➕</span><span>shoe_db</span>
+        </div>
+        <div class="flex items-center gap-1 sidebar-item py-0.5 cursor-pointer">
+          <span>➕</span><span>sklepSerohenko</span>
+        </div>
+        <div class="flex items-center gap-1 sidebar-item py-0.5 cursor-pointer">
+          <span>➕</span><span>sku</span>
+        </div>
+        <div class="flex items-center gap-1 sidebar-item py-0.5 cursor-pointer">
+          <span>➕</span><span>st</span>
+        </div>
+      </div>
+    </aside>
+    <!-- END: LeftSidebar -->
+    <!-- BEGIN: MainContent -->
+    <main class="flex-1 overflow-y-auto bg-white">
+      <!-- BEGIN: TopHeader -->
+      <header
+        class="bg-pma-header border-b border-pma-gray p-1 flex justify-between items-center"
+      >
+        <div class="flex items-center gap-2">
+          <span class="text-gray-500">←</span>
+          <span class="flex items-center gap-1"
+            >🖥️ Server: phpMyAdmin demo - MySQL</span
+          >
+        </div>
+        <div class="flex items-center gap-2">
+          <div
+            class="bg-gray-200 border border-gray-400 p-0.5 rounded cursor-pointer"
+          >
+            👤
+          </div>
+          <div
+            class="bg-gray-200 border border-gray-400 p-0.5 rounded cursor-pointer"
+          >
+            🚪
+          </div>
+        </div>
+      </header>
+      <!-- END: TopHeader -->
+      <!-- BEGIN: TabNavigation -->
+      <nav
+        class="flex border-b border-pma-gray bg-pma-sidebar px-2 pt-2 gap-0.5"
+      >
+        <div
+          class="px-3 py-1 border border-pma-gray border-b-0 rounded-t-sm flex items-center gap-1 cursor-pointer bg-gray-100 hover:bg-white"
+        >
+          📂 Databases
+        </div>
+        <div
+          class="px-3 py-1 border border-pma-gray border-b-0 rounded-t-sm flex items-center gap-1 cursor-pointer bg-gray-100 hover:bg-white"
+        >
+          📄 SQL
+        </div>
+        <div
+          class="px-3 py-1 border border-pma-gray border-b-0 rounded-t-sm flex items-center gap-1 cursor-pointer bg-gray-100 hover:bg-white"
+        >
+          📊 Status
+        </div>
+        <div
+          class="px-3 py-1 border border-pma-gray border-b-0 rounded-t-sm flex items-center gap-1 cursor-pointer tab-active"
+        >
+          👥 User accounts
+        </div>
+        <div
+          class="px-3 py-1 border border-pma-gray border-b-0 rounded-t-sm flex items-center gap-1 cursor-pointer bg-gray-100 hover:bg-white"
+        >
+          📤 Export
+        </div>
+        <div
+          class="px-3 py-1 border border-pma-gray border-b-0 rounded-t-sm flex items-center gap-1 cursor-pointer bg-gray-100 hover:bg-white"
+        >
+          📥 Import
+        </div>
+        <div
+          class="px-3 py-1 border border-pma-gray border-b-0 rounded-t-sm flex items-center gap-1 cursor-pointer bg-gray-100 hover:bg-white"
+        >
+          ⚙️ Settings
+        </div>
+        <div
+          class="px-3 py-1 border border-pma-gray border-b-0 rounded-t-sm flex items-center gap-1 cursor-pointer bg-gray-100 hover:bg-white"
+        >
+          📜 Binary log
+        </div>
+        <div
+          class="px-3 py-1 border border-pma-gray border-b-0 rounded-t-sm flex items-center gap-1 cursor-pointer bg-gray-100 hover:bg-white"
+        >
+          🔄 Replication
+        </div>
+        <div
+          class="px-3 py-1 border border-pma-gray border-b-0 rounded-t-sm flex items-center gap-1 cursor-pointer bg-gray-100 hover:bg-white"
+        >
+          🏷️ Variables
+        </div>
+        <div
+          class="px-3 py-1 border border-pma-gray border-b-0 rounded-t-sm flex items-center gap-1 cursor-pointer bg-gray-100 hover:bg-white"
+        >
+          🔠 Charsets
+        </div>
+        <div
+          class="px-3 py-1 border border-pma-gray border-b-0 rounded-t-sm flex items-center gap-1 cursor-pointer bg-gray-100 hover:bg-white"
+        >
+          ⚙️ Engines
+        </div>
+        <div
+          class="px-3 py-1 border border-pma-gray border-b-0 rounded-t-sm flex items-center gap-1 cursor-pointer bg-gray-100 hover:bg-white"
+        >
+          🧩 Plugins
+        </div>
+      </nav>
+      <!-- END: TabNavigation -->
+      <!-- BEGIN: ContentArea -->
+      <section class="p-4" data-purpose="main-overview">
+        <h2 class="text-xl mb-4">User accounts overview</h2>
+        <!-- BEGIN: UserTable -->
+        <div class="overflow-x-auto mb-4">
+          <table class="table-pma w-full">
+            <thead>
+              <tr>
+                <th class="w-8"></th>
+                <th>User name</th>
+                <th>Host name</th>
+                <th>Password</th>
+                <th>
+                  Global privileges
+                  <span class="text-blue-500 cursor-help" title="Help">❓</span>
+                </th>
+                <th>Grant</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="checkbox" /></td>
+                <td>kevinmoreno</td>
+                <td>localhost</td>
+                <td>Yes</td>
+                <td class="text-pink-600">ALL PRIVILEGES</td>
+                <td>Yes</td>
+                <td class="flex gap-4">
+                  <a class="action-link" href="#">👤 Edit privileges</a>
+                  <a class="action-link" href="#">📤 Export</a>
+                  <a class="action-link" href="#">🔒 Lock</a>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" /></td>
+                <td>mysql.infoschema</td>
+                <td>localhost</td>
+                <td>Yes</td>
+                <td class="text-pink-600">SELECT</td>
+                <td>No</td>
+                <td class="flex gap-4">
+                  <a class="action-link" href="#">👤 Edit privileges</a>
+                  <a class="action-link" href="#">📤 Export</a>
+                  <a class="action-link" href="#">🔓 Unlock</a>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" /></td>
+                <td>mysql.session</td>
+                <td>localhost</td>
+                <td>Yes</td>
+                <td class="text-pink-600">SHUTDOWN, SUPER</td>
+                <td>No</td>
+                <td class="flex gap-4">
+                  <a class="action-link" href="#">👤 Edit privileges</a>
+                  <a class="action-link" href="#">📤 Export</a>
+                  <a class="action-link" href="#">🔓 Unlock</a>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" /></td>
+                <td>mysql.sys</td>
+                <td>localhost</td>
+                <td>Yes</td>
+                <td class="text-pink-600">USAGE</td>
+                <td>No</td>
+                <td class="flex gap-4">
+                  <a class="action-link" href="#">👤 Edit privileges</a>
+                  <a class="action-link" href="#">📤 Export</a>
+                  <a class="action-link" href="#">🔓 Unlock</a>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" /></td>
+                <td>njokiadm</td>
+                <td>localhost</td>
+                <td>Yes</td>
+                <td class="text-pink-600">USAGE</td>
+                <td>No</td>
+                <td class="flex gap-4">
+                  <a class="action-link" href="#">👤 Edit privileges</a>
+                  <a class="action-link" href="#">📤 Export</a>
+                  <a class="action-link" href="#">🔒 Lock</a>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" /></td>
+                <td>pma</td>
+                <td>192.168.30.%</td>
+                <td>Yes</td>
+                <td class="text-pink-600">USAGE</td>
+                <td>No</td>
+                <td class="flex gap-4">
+                  <a class="action-link" href="#">👤 Edit privileges</a>
+                  <a class="action-link" href="#">📤 Export</a>
+                  <a class="action-link" href="#">🔒 Lock</a>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" /></td>
+                <td>root</td>
+                <td>192.168.30.%</td>
+                <td class="text-red-500 font-bold">No</td>
+                <td class="text-pink-600">ALL PRIVILEGES</td>
+                <td>Yes</td>
+                <td class="flex gap-4">
+                  <a class="action-link" href="#">👤 Edit privileges</a>
+                  <a class="action-link" href="#">📤 Export</a>
+                  <a class="action-link" href="#">🔒 Lock</a>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" /></td>
+                <td>root</td>
+                <td>localhost</td>
+                <td class="text-red-500 font-bold">No</td>
+                <td class="text-pink-600">ALL PRIVILEGES</td>
+                <td>Yes</td>
+                <td class="flex gap-4">
+                  <a class="action-link" href="#">👤 Edit privileges</a>
+                  <a class="action-link" href="#">📤 Export</a>
+                  <a class="action-link" href="#">🔒 Lock</a>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" /></td>
+                <td>students2020admin</td>
+                <td>localhost</td>
+                <td>Yes</td>
+                <td class="text-pink-600">USAGE</td>
+                <td>No</td>
+                <td class="flex gap-4">
+                  <a class="action-link" href="#">👤 Edit privileges</a>
+                  <a class="action-link" href="#">📤 Export</a>
+                  <a class="action-link" href="#">🔒 Lock</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- END: UserTable -->
+        <div class="flex items-center gap-4 mb-8">
+          <span class="text-gray-400">↳</span>
+          <label class="flex items-center gap-1 cursor-pointer"
+            ><input type="checkbox" /> Check all</label
+          >
+          <span class="italic ml-4">With selected:</span>
+          <a class="action-link" href="#">📤 Export</a>
+        </div>
+        <!-- BEGIN: NewUserSection -->
+        <div class="mb-6">
+          <div
+            class="bg-gray-100 border border-pma-gray rounded-t p-1 w-12 text-center font-bold"
+          >
+            New
+          </div>
+          <div class="border border-pma-gray p-3 flex items-center">
+            <a class="action-link" href="#">👤 Add user account</a>
+          </div>
+        </div>
+        <!-- END: NewUserSection -->
+        <!-- BEGIN: RemoveUserSection -->
+        <div class="mb-6">
+          <div
+            class="bg-gray-100 border border-pma-gray rounded-t p-1 w-48 font-bold flex items-center gap-1"
+          >
+            👥 Remove selected user accounts
+          </div>
+          <div class="border border-pma-gray p-4 bg-gray-50">
+            <p class="mb-4">
+              Revoke all active privileges from the users and delete them
+              afterwards.
+            </p>
+            <label class="flex items-center gap-2 mb-4 cursor-pointer">
+              <input type="checkbox" /> Drop the databases that have the same
+              names as the users.
+            </label>
+            <div class="flex justify-end border-t border-pma-gray pt-2">
+              <button
+                class="bg-gray-100 px-6 py-0.5 border border-gray-400 rounded hover:bg-gray-200"
+              >
+                Go
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- END: RemoveUserSection -->
+        <!-- BEGIN: Footnotes -->
+        <div class="warning-box text-[11px] flex gap-2 items-start">
+          <span class="text-yellow-600 text-lg">⚠️</span>
+          <div>
+            Note: phpMyAdmin gets the users' privileges directly from MySQL's
+            privilege tables. The content of these tables may differ from the
+            privileges the server uses, if they have been changed manually. In
+            this case, you should
+            <a class="text-blue-600 underline" href="#"
+              >reload the privileges</a
+            >
+            before you continue.
+          </div>
+        </div>
+        <div class="info-box text-[11px] flex items-center gap-2">
+          <span class="text-yellow-600 text-lg">⚠️</span>
+          <div>
+            <a class="text-blue-600 underline" href="#"
+              >phpMyAdmin Demo Server:</a
+            >
+            Currently running Git revision
+            <a class="text-blue-600 underline" href="#"
+              >RELEASE_5_2_3-8806-g3e756d69dd</a
+            >
+            from the
+            <a class="text-blue-600 underline" href="#">master</a> branch.
+          </div>
+        </div>
+        <!-- END: Footnotes -->
+      </section>
+      <!-- END: ContentArea -->
+      <!-- BEGIN: ConsoleFooter -->
+      <footer
+        class="fixed bottom-0 right-0 left-64 bg-gray-200 border-t border-pma-gray p-1 px-3"
+      >
+        <div
+          class="inline-block bg-white border border-gray-400 px-2 cursor-pointer"
+        >
+          ⬛ Console
+        </div>
+      </footer>
+      <!-- END: ConsoleFooter -->
+    </main>
+    <!-- END: MainContent -->
+  </body>
+</html>
