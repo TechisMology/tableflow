@@ -40,6 +40,8 @@ const emit = defineEmits(["user-profile", "logout", "toggle-db-panel"]);
 
     <!-- Right: Toggle DB Panel + Action Buttons -->
     <div class="pma-header-right">
+      <slot />
+
       <!-- Toggle Database Panel -->
       <button
         class="pma-db-panel-toggle"

@@ -1,0 +1,222 @@
+/* ============================================================
+   TMyadmin — Console Styles
+   Spesifik untuk Monaco SQL Editor dan layout console footer
+   ============================================================ */
+
+/* ── Layout: Console Footer (Monaco SQL) ─────── */
+
+/* Wrapper posisi fixed di bawah, height dinamis */
+.pma-console-footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: var(--width-pma-sidebar);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  background-color: #1e1e1e; /* dark editor bg */
+  border-top: 2px solid var(--color-pma-border);
+  transition: height 0.0s; /* dihandle JS, no CSS transition */
+  min-height: var(--height-pma-console-collapsed);
+}
+
+/* Saat tertutup — hanya toolbar kecil */
+.pma-console-footer.collapsed {
+  height: var(--height-pma-console-collapsed) !important;
+}
+
+/* ── Drag Handle (resize bar di atas footer) ─── */
+.pma-console-resizer {
+  height: 5px;
+  background-color: var(--color-pma-border);
+  cursor: row-resize;
+  flex-shrink: 0;
+  user-select: none;
+  transition: background-color 0.15s;
+}
+
+.pma-console-resizer:hover,
+.pma-console-resizer.dragging {
+  background-color: var(--color-pma-blue);
+}
+
+/* ── Console Toolbar (baris tombol atas) ─────── */
+.pma-console-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  background-color: #252526;
+  border-bottom: 1px solid #3c3c3c;
+  flex-shrink: 0;
+  min-height: var(--height-pma-console-collapsed);
+}
+
+.pma-console-toolbar-title {
+  font-size: var(--font-size-pma-base);
+  color: #cccccc;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.pma-console-toolbar-title:hover {
+  color: #ffffff;
+}
+
+.pma-console-toolbar-sep {
+  width: 1px;
+  height: 14px;
+  background-color: #555555;
+  flex-shrink: 0;
+}
+
+.pma-console-toolbar-spacer {
+  flex: 1;
+}
+
+/* ── Console Action Buttons ──────────────────── */
+.pma-console-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background-color: #3a3a3a;
+  border: 1px solid #555555;
+  color: #cccccc;
+  padding: 2px 8px;
+  border-radius: var(--radius-pma-sm);
+  cursor: pointer;
+  font-size: var(--font-size-pma-base);
+  font-family: var(--font-family-pma);
+  transition: background-color 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.pma-console-action-btn:hover {
+  background-color: #4a4a4a;
+  color: #ffffff;
+}
+
+/* Run button — aksen biru */
+.pma-console-action-btn.run {
+  background-color: var(--color-pma-blue);
+  border-color: var(--color-pma-blue-hover);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.pma-console-action-btn.run:hover {
+  background-color: var(--color-pma-blue-hover);
+}
+
+/* Clear button — aksen merah redup */
+.pma-console-action-btn.danger:hover {
+  background-color: #6e2020;
+  border-color: #8b3030;
+  color: #ffaaaa;
+}
+
+/* ── Console Body (editor + result) ─────────── */
+.pma-console-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* ── Monaco Editor Container ─────────────────── */
+.pma-console-editor {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+/* Monaco mount target — harus 100% w & h */
+.pma-console-editor-mount {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* ── Console Status Bar ──────────────────────── */
+.pma-console-statusbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 10px;
+  background-color: var(--color-pma-blue);
+  color: #ffffff;
+  font-size: var(--font-size-pma-small);
+  flex-shrink: 0;
+  min-height: 20px;
+}
+
+.pma-console-statusbar-text {
+  opacity: 0.9;
+}
+
+.pma-console-statusbar-sep {
+  opacity: 0.4;
+}
+
+/* ── Console Result Area ─────────────────────── */
+.pma-console-result {
+  max-height: 120px;
+  overflow-y: auto;
+  background-color: #1e1e1e;
+  border-top: 1px solid #3c3c3c;
+  flex-shrink: 0;
+}
+
+.pma-console-result-head {
+  padding: 3px 10px;
+  font-size: var(--font-size-pma-small);
+  color: #888888;
+  background-color: #252526;
+  border-bottom: 1px solid #3c3c3c;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pma-console-result-ok {
+  color: #4ec94e;
+}
+
+.pma-console-result-err {
+  color: #f48771;
+}
+
+.pma-console-result-rows {
+  padding: 4px 10px;
+  font-size: var(--font-size-pma-small);
+  color: #cccccc;
+  font-family: 'Consolas', 'Courier New', monospace;
+  line-height: 1.6;
+}
+
+/* ── Console Btn (lama, tetap untuk kompatibilitas) ─ */
+.pma-console-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background-color: var(--color-pma-bg-white);
+  border: 1px solid #aaaaaa;
+  padding: 1px 8px;
+  cursor: pointer;
+  font-size: var(--font-size-pma-base);
+  color: var(--color-pma-text);
+  transition: background-color 0.15s;
+}
+
+.pma-console-btn:hover {
+  background-color: #f5f5f5;
+}

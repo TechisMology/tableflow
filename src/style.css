@@ -64,6 +64,10 @@
   /* ── Database Panel ──────────────────────────── */
   --width-pma-db-panel: 280px;
 
+  /* ── Console Panel ───────────────────────────── */
+  --height-pma-console-collapsed: 28px;
+  --height-pma-console-default: 220px;
+
   /* ── Gradients ───────────────────────────────── */
   --gradient-pma-header: linear-gradient(to bottom, #ffffff 0%, #e8e8e8 100%);
   --gradient-pma-th: linear-gradient(to bottom, #ffffff 0%, #e8e8e8 100%);
@@ -344,40 +348,11 @@ body {
     font-size: 13px;
   }
 
-  /* ── Layout: Console Footer ──────────────────── */
-  .pma-console-footer {
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    left: var(--width-pma-sidebar);
-    background-color: #e0e0e0;
-    border-top: 1px solid var(--color-pma-border);
-    padding: 3px 10px;
-    z-index: 100;
-  }
-
-  .pma-console-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background-color: var(--color-pma-bg-white);
-    border: 1px solid #aaaaaa;
-    padding: 1px 8px;
-    cursor: pointer;
-    font-size: var(--font-size-pma-base);
-    color: var(--color-pma-text);
-    transition: background-color 0.15s;
-  }
-
-  .pma-console-btn:hover {
-    background-color: #f5f5f5;
-  }
-
   /* ── Content Area ────────────────────────────── */
   .pma-content {
     padding: 12px 16px;
     flex: 1;
-    padding-bottom: 36px; /* clearance for fixed footer */
+    padding-bottom: 240px; /* clearance for Monaco console — adjust to consoleHeight */
   }
 
   .pma-page-title {
