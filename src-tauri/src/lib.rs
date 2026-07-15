@@ -69,6 +69,75 @@ async fn list_connection_tables(mut conn: DbConnection, password: Option<String>
     connector.list_tables(password.as_deref()).await
 }
 
+#[tauri::command]
+async fn execute_connection_query(mut conn: DbConnection, password: Option<String>, query: String, database: Option<String>) -> Result<String, String> {
+    if let Some(db_name) = database {
+        conn.database = Some(db_name);
+    }
+    let connector = db::db_connector::create_connector(conn);
+    connector.execute_query(&query, password.as_deref()).await
+}
+
+#[tauri::command]
+async fn export_database(mut conn: DbConnection, password: Option<String>, database: String, format: String) -> Result<String, String> {
+    conn.database = Some(database.clone());
+    let connector = db::db_connector::create_connector(conn.clone());
+    let tables = connector.list_tables(password.as_deref()).await?;
+    let mut sql_dump = String::new();
+    sql_dump.push_str(&format!("-- Tableflow Dump\n-- Database: {}\n-- Format: {}\n\n", database, format));
+    
+    if format.to_lowercase() == "sql" {
+        for table in tables {
+            sql_dump.push_str(&format!("-- Structure for table `{}`\n", table));
+            if conn.driver == crate::models::connection::DbDriver::Mysql {
+                let create_query = format!("SHOW CREATE TABLE `{}`", table);
+                if let Ok(res_json) = connector.execute_query(&create_query, password.as_deref()).await {
+                    if let Ok(rows) = serde_json::from_str::<serde_json::Value>(&res_json) {
+                        if let Some(create_sql) = rows.get(0).and_then(|r| r.get("Create Table")).and_then(|v| v.as_str()) {
+                            sql_dump.push_str(&format!("{};\n\n", create_sql));
+                        }
+                    }
+                }
+            } else {
+                sql_dump.push_str(&format!("CREATE TABLE `{}` (\n  -- Columns layout\n);\n\n", table));
+            }
+            
+            let select_query = format!("SELECT * FROM `{}` LIMIT 100", table);
+            if let Ok(res_json) = connector.execute_query(&select_query, password.as_deref()).await {
+                if let Ok(rows) = serde_json::from_str::<Vec<serde_json::Map<String, serde_json::Value>>>(&res_json) {
+                    for row in rows {
+                        let keys: Vec<String> = row.keys().map(|k| format!("`{}`", k)).collect();
+                        let vals: Vec<String> = row.values().map(|v| {
+                            if v.is_null() {
+                                "NULL".to_string()
+                            } else if v.is_string() {
+                                format!("'{}'", v.as_str().unwrap().replace("'", "''"))
+                            } else {
+                                v.to_string()
+                            }
+                        }).collect();
+                        if !keys.is_empty() {
+                            sql_dump.push_str(&format!("INSERT INTO `{}` ({}) VALUES ({});\n", table, keys.join(", "), vals.join(", ")));
+                        }
+                    }
+                    sql_dump.push_str("\n");
+                }
+            }
+        }
+    } else {
+        sql_dump.push_str("{\n");
+        for (i, table) in tables.iter().enumerate() {
+            let select_query = format!("SELECT * FROM `{}` LIMIT 100", table);
+            if let Ok(res_json) = connector.execute_query(&select_query, password.as_deref()).await {
+                sql_dump.push_str(&format!("  \"{}\": {}{}\n", table, res_json, if i == tables.len() - 1 { "" } else { "," }));
+            }
+        }
+        sql_dump.push_str("}\n");
+    }
+    
+    Ok(sql_dump)
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -81,7 +150,9 @@ pub fn run() {
             delete_connection,
             get_connection_password,
             list_connection_databases,
-            list_connection_tables
+            list_connection_tables,
+            execute_connection_query,
+            export_database
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

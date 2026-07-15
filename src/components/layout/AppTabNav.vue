@@ -11,21 +11,7 @@
 const props = defineProps({
   tabs: {
     type: Array,
-    default: () => [
-      { id: "databases",   icon: "📂", label: "Databases" },
-      { id: "sql",         icon: "📄", label: "SQL" },
-      { id: "status",      icon: "📊", label: "Status" },
-      { id: "users",       icon: "👥", label: "User accounts" },
-      { id: "export",      icon: "📤", label: "Export" },
-      { id: "import",      icon: "📥", label: "Import" },
-      { id: "settings",    icon: "⚙️",  label: "Settings" },
-      { id: "binlog",      icon: "📜", label: "Binary log" },
-      { id: "replication", icon: "🔄", label: "Replication" },
-      { id: "variables",   icon: "🏷️",  label: "Variables" },
-      { id: "charsets",    icon: "🔠", label: "Charsets" },
-      { id: "engines",     icon: "⚙️",  label: "Engines" },
-      { id: "plugins",     icon: "🧩", label: "Plugins" },
-    ],
+    required: true,
   },
   activeTab: {
     type: String,
@@ -33,7 +19,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["tab-change"]);
+const emit = defineEmits(["tab-change", "tab-close"]);
 </script>
 
 <template>
@@ -41,7 +27,7 @@ const emit = defineEmits(["tab-change"]);
     <div
       v-for="tab in tabs"
       :key="tab.id"
-      class="pma-tab"
+      class="pma-tab flex items-center gap-1"
       :class="{ active: activeTab === tab.id }"
       role="tab"
       :aria-selected="activeTab === tab.id"
@@ -50,6 +36,13 @@ const emit = defineEmits(["tab-change"]);
     >
       <span class="pma-tab-icon">{{ tab.icon }}</span>
       <span>{{ tab.label }}</span>
+      <span
+        v-if="tab.closable"
+        class="ml-1 cursor-pointer font-bold hover:text-[var(--color-pma-text-danger)] text-[9px]"
+        @click.stop="emit('tab-close', tab.id)"
+      >
+        ✕
+      </span>
     </div>
   </nav>
 </template>

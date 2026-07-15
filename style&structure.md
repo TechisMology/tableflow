@@ -39,9 +39,17 @@ TMyadmin/
 │       │   ├── PmaActionLink.vue
 │       │   ├── PmaInfoBox.vue
 │       │   ├── PmaBtn.vue
-│       │   └── PmaSectionHeader.vue
+│       │   ├── PmaSectionHeader.vue
+│       │   ├── PmaModal.vue             ← Dialog konfirmasi hapus/drop tabel
+│       │   └── PmaToast.vue             ← Notifikasi toast (sukses/error)
 │       └── pages/                   ← Komponen halaman (satu per tab/view)
-│           └── UserAccountsPage.vue
+│           ├── UserAccountsPage.vue
+│           ├── DatabaseManagerPage.vue  ← Manajemen Database (Structure, SQL, Export, Import)
+│           ├── TableManagerPage.vue     ← Halaman Tabel (Tab Container)
+│           └── table/                   ← Sub-komponen detail manajemen tabel
+│               ├── TableBrowse.vue      ← Tab Data Browser & Insertion
+│               ├── TableStructure.vue   ← Tab Metadata Column Structure
+│               └── TableRelation.vue    ← Tab Foreign Key Constraints
 ├── template_sample/
 │   ├── code.html                    ← Template referensi asli
 │   └── screen.png                   ← Screenshot referensi visual
@@ -366,8 +374,8 @@ Semua class berikut ada di `src/style.css`. Gunakan class ini, jangan buat style
 - **CSS**: `.pma-header`, `.pma-header-left`, `.pma-header-back`, `.pma-header-server-info`, `.pma-header-right`, `.pma-header-action-btn`
 
 #### `AppTabNav.vue`
-- **Props**: `tabs: Array<{id, icon, label}>`, `activeTab: string`
-- **Emits**: `tab-change(tabId)`
+- **Props**: `tabs: Array<{id, icon, label, closable}>`, `activeTab: string`
+- **Emits**: `tab-change(tabId)`, `tab-close(tabId)`
 - **CSS**: `.pma-tab-nav`, `.pma-tab`, `.pma-tab.active`, `.pma-tab-icon`
 
 #### `AppConsoleFooter.vue`
@@ -471,6 +479,18 @@ Semua class berikut ada di `src/style.css`. Gunakan class ini, jangan buat style
 </PmaSectionHeader>
 ```
 
+#### `PmaModal.vue`
+- **Props**: `show: boolean`, `title: string`, `message: string`
+- **Emits**: `confirm`, `cancel`
+- **Fungsi**: Digunakan untuk menampilkan konfirmasi drop tabel di sisi tengah viewport dengan backdrop gelap.
+
+#### `PmaToast.vue`
+- **Props**: `show: boolean`, `type: 'success' | 'error'`, `message: string`, `duration: number`
+- **Emits**: `close`
+- **Fitur**:
+  - Success: Tampil di sisi kiri atas (`top-16 left-72`), dilengkapi progress bar penyusutan durasi reaktif untuk autoclose.
+  - Error: Tampil di tengah layar (modal-style) secara statis tanpa animasi bergerak/bouncing.
+
 ---
 
 ### Pages (`src/components/pages/`)
@@ -480,6 +500,26 @@ Semua class berikut ada di `src/style.css`. Gunakan class ini, jangan buat style
 - **Fungsi**: `toggleAll()`, `toggleRow(id)`
 - **Components**: `PmaTable`, `PmaActionLink`, `PmaInfoBox`, `PmaBtn`, `PmaSectionHeader`
 - **Grid**: `pma-row` + `pma-col-12` di dalam section remove user
+
+#### `DatabaseManagerPage.vue`
+- **Props**: `dbName: string (required)`
+- **Fungsi/Koneksi**: `reloadTables()`, `loadTableSizes()`, `handleDropTable()`, `handleRenameTable()`, `handleCreateTable()`, `handleRunSQL()`, `handleExport()`, `handleDownloadExport()`, `handleImportExecute()`
+- **Components**: `PmaTable`, `PmaActionLink`, `PmaBtn`, `PmaSectionHeader`, `PmaInfoBox`, `PmaModal`, `PmaToast`
+- **Sub-Tabs**:
+  1. **Structure**: List tabel dengan ukuran tabel dinamis (misal `32.0 KiB`), inline rename (`ALTER TABLE RENAME TO`), drop tabel (via `PmaModal`), dan penambahan tabel baru.
+  2. **SQL**: Monaco Editor untuk eksekusi kueri reaktif lengkap dengan rendering data tabel di sisi bawah.
+  3. **Export**: Ekspor tabel dalam format SQL/JSON dengan fitur salin clipboard dan unduh file (`handleDownloadExport`).
+  4. **Import**: Fitur drag & drop file SQL/CSV reaktif yang membaca file dan mengeksekusi kueri berurutan (sequential splitting).
+  5. **Diagram**: Placeholder visual diagram tabel relasional.
+
+#### `TableManagerPage.vue`
+- **Props**: `dbName: string (required)`, `tableName: string (required)`
+- **Fungsi/Koneksi**: `fetchBrowseData()`, `startEditRow()`, `saveEditRow()`, `handleInsertRow()`, `fetchStructure()`, `fetchRelations()`, `handleAddRelation()`, `handleConfirmDeleteRelation()`
+- **Components**: `PmaTable`, `PmaActionLink`, `PmaBtn`, `PmaSectionHeader`, `PmaInfoBox`, `PmaModal`, `PmaToast`
+- **Sub-Tabs**:
+  1. **Browse**: List data tabel reaktif dengan pencarian row search form, paginasi per halaman (10, 25, 50, 100) / show all, inline edit untuk mengupdate nilai baris data secara langsung, serta formulir input penambahan baris data baru (+ Add Row). Dilengkapi dengan konsol penampil query SQL terakhir yang dijalankan (INSERT/UPDATE), pengenalan tipe input tanggal/jam/waktu otomatis, dan opsi pengisian nilai NULL reaktif jika kolom mendukung nullable.
+  2. **Structure**: Detail metadata kolom tabel (Name, Type, Collation, Attributes, Null, Default, Comments, Extra).
+  3. **Relation Structure**: Relation view menampilkan daftar constraint foreign key relasi tabel, formulir penambahan constraint FK (ON DELETE / ON UPDATE actions), serta tombol drop constraint relasi.
 
 ---
 

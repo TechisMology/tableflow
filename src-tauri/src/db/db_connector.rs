@@ -130,10 +130,32 @@ impl DatabaseConnector for MySqlConnector {
                     json!(s)
                 } else if let Ok(i) = row.try_get::<i64, &str>(name) {
                     json!(i)
+                } else if let Ok(i) = row.try_get::<i32, &str>(name) {
+                    json!(i)
+                } else if let Ok(i) = row.try_get::<i16, &str>(name) {
+                    json!(i)
+                } else if let Ok(i) = row.try_get::<i8, &str>(name) {
+                    json!(i)
+                } else if let Ok(u) = row.try_get::<u64, &str>(name) {
+                    json!(u)
+                } else if let Ok(u) = row.try_get::<u32, &str>(name) {
+                    json!(u)
                 } else if let Ok(f) = row.try_get::<f64, &str>(name) {
+                    json!(f)
+                } else if let Ok(f) = row.try_get::<f32, &str>(name) {
                     json!(f)
                 } else if let Ok(b) = row.try_get::<bool, &str>(name) {
                     json!(b)
+                } else if let Ok(dt) = row.try_get::<sqlx::types::chrono::NaiveDateTime, &str>(name) {
+                    json!(dt.to_string())
+                } else if let Ok(dt) = row.try_get::<sqlx::types::chrono::DateTime<sqlx::types::chrono::Utc>, &str>(name) {
+                    json!(dt.to_string())
+                } else if let Ok(dt) = row.try_get::<sqlx::types::chrono::DateTime<sqlx::types::chrono::Local>, &str>(name) {
+                    json!(dt.to_string())
+                } else if let Ok(d) = row.try_get::<sqlx::types::chrono::NaiveDate, &str>(name) {
+                    json!(d.to_string())
+                } else if let Ok(t) = row.try_get::<sqlx::types::chrono::NaiveTime, &str>(name) {
+                    json!(t.to_string())
                 } else {
                     json!(null)
                 };
@@ -259,10 +281,29 @@ impl DatabaseConnector for PostgresConnector {
                     json!(s)
                 } else if let Ok(i) = row.try_get::<i64, &str>(name) {
                     json!(i)
+                } else if let Ok(i) = row.try_get::<i32, &str>(name) {
+                    json!(i)
+                } else if let Ok(i) = row.try_get::<i16, &str>(name) {
+                    json!(i)
+                } else if let Ok(i) = row.try_get::<i8, &str>(name) {
+                    json!(i)
+
                 } else if let Ok(f) = row.try_get::<f64, &str>(name) {
+                    json!(f)
+                } else if let Ok(f) = row.try_get::<f32, &str>(name) {
                     json!(f)
                 } else if let Ok(b) = row.try_get::<bool, &str>(name) {
                     json!(b)
+                } else if let Ok(dt) = row.try_get::<sqlx::types::chrono::NaiveDateTime, &str>(name) {
+                    json!(dt.to_string())
+                } else if let Ok(dt) = row.try_get::<sqlx::types::chrono::DateTime<sqlx::types::chrono::Utc>, &str>(name) {
+                    json!(dt.to_string())
+                } else if let Ok(dt) = row.try_get::<sqlx::types::chrono::DateTime<sqlx::types::chrono::FixedOffset>, &str>(name) {
+                    json!(dt.to_string())
+                } else if let Ok(d) = row.try_get::<sqlx::types::chrono::NaiveDate, &str>(name) {
+                    json!(d.to_string())
+                } else if let Ok(t) = row.try_get::<sqlx::types::chrono::NaiveTime, &str>(name) {
+                    json!(t.to_string())
                 } else {
                     json!(null)
                 };
@@ -354,10 +395,32 @@ impl DatabaseConnector for SqliteConnector {
                     json!(s)
                 } else if let Ok(i) = row.try_get::<i64, &str>(name) {
                     json!(i)
+                } else if let Ok(i) = row.try_get::<i32, &str>(name) {
+                    json!(i)
+                } else if let Ok(i) = row.try_get::<i16, &str>(name) {
+                    json!(i)
+                } else if let Ok(i) = row.try_get::<i8, &str>(name) {
+                    json!(i)
+                } else if let Ok(u) = row.try_get::<u64, &str>(name) {
+                    json!(u)
+                } else if let Ok(u) = row.try_get::<u32, &str>(name) {
+                    json!(u)
                 } else if let Ok(f) = row.try_get::<f64, &str>(name) {
+                    json!(f)
+                } else if let Ok(f) = row.try_get::<f32, &str>(name) {
                     json!(f)
                 } else if let Ok(b) = row.try_get::<bool, &str>(name) {
                     json!(b)
+                } else if let Ok(dt) = row.try_get::<sqlx::types::chrono::NaiveDateTime, &str>(name) {
+                    json!(dt.to_string())
+                } else if let Ok(dt) = row.try_get::<sqlx::types::chrono::DateTime<sqlx::types::chrono::Utc>, &str>(name) {
+                    json!(dt.to_string())
+                } else if let Ok(dt) = row.try_get::<sqlx::types::chrono::DateTime<sqlx::types::chrono::FixedOffset>, &str>(name) {
+                    json!(dt.to_string())
+                } else if let Ok(d) = row.try_get::<sqlx::types::chrono::NaiveDate, &str>(name) {
+                    json!(d.to_string())
+                } else if let Ok(t) = row.try_get::<sqlx::types::chrono::NaiveTime, &str>(name) {
+                    json!(t.to_string())
                 } else {
                     json!(null)
                 };
